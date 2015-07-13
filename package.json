@@ -1,0 +1,23 @@
+{
+  "name": "project0",
+  "version": "1.0.0",
+  "description": "1. Create a blog that accepts posts from all viewers. 2. Libraries used: bootstrap, jQuery and underscore.js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex415/project0.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alex415/project0/issues"
+  },
+  "homepage": "https://github.com/alex415/project0#readme",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "express": "^4.13.1"
+  }
+}

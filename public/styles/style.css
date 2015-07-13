@@ -1,0 +1,60 @@
+/*GOSSIP
+87D37C
+135, 211, 124*/
+
+#backgroundbackgroundimage {
+  opacity: 0.4;
+  filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+#intro {
+    font-size: 28px;
+}
+
+/*remove navbar bottom margin*/
+.navbar {
+    margin-bottom: 0;
+}
+
+/*remove round corners*/
+* {
+  border-radius: 0 !important;
+}
+
+/*remove round corners of buttons*/
+.btn{
+  -webkit-border-radius: 0;
+  -moz-border-radius:    0;
+  border-radius:         0;
+}
+
+/*GHOST BUTTON*/
+.btn.outline {
+    background: none;
+    padding: 12px 22px;
+}
+
+.btn-primary.outline {
+    border: 2px solid #0099cc;
+    color: #0099cc;
+}
+
+.btn-primary.outline:hover, .btn-primary.outline:focus, .btn-primary.outline:active, .btn-primary.outline.active, .open > .dropdown-toggle.btn-primary {
+    color: #33a6cc;
+    border-color: #33a6cc;
+}
+.btn-primary.outline:active, .btn-primary.outline.active {
+    border-color: #007299;
+    color: #007299;
+    box-shadow: none;
+}
+
+
+
+
+
+
