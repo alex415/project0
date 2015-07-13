@@ -2,17 +2,8 @@
 87D37C
 135, 211, 124*/
 
-#backgroundbackgroundimage {
-  opacity: 0.4;
-  filter: alpha(opacity=40); /* For IE8 and earlier */
-}
-
 * {
   font-family: 'Lato', sans-serif;
-}
-
-#intro {
-    font-size: 28px;
 }
 
 /*remove navbar bottom margin*/
@@ -53,6 +44,14 @@
     box-shadow: none;
 }
 
+#intro {
+  font-size: 28;
+}
+
+/*REMOVE FADE ON CAROUSEL*/
+.carousel-control.left, .carousel-control.right {
+    background-image: none
+}
 
 
 

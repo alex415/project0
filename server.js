@@ -2,9 +2,9 @@
 
 // require express and other modules
 var express = require('express'),
-    app = express();
-    bodyParser = require('body-parser');
-    // _ = require("underscore");
+    app = express(),
+    bodyParser = require('body-parser'),
+    _ = require('underscore');
 
 // serve js and css files from public folder
 app.use(express.static(__dirname + '/public'));

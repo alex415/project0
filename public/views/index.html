@@ -19,7 +19,7 @@
 
  <title>Hacker Confessions</title>
 </head>
-<body background="BG1.jpg" id="backgroundimage">
+<body background="BG.jpg" id="backgroundimage">
 
     <!-- NAVBAR --> <!--ADDED FIXED TOP -->
     <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
@@ -38,7 +38,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#"><i class="fa fa-user-secret">Hacker Confessions</i></a></li>
+          <li class=""><a href="#"><i class="fa fa-user-secret">Hacker Confessions</i></a></li>
           <li><a href="#">About Us</a></li>
           
       </div><!-- /.navbar-collapse -->
@@ -95,30 +95,13 @@
   </div>
     <!-- END OF CAROUSEL -->
 
+    <p id="intro">
+    <center>
+    <b><i class="fa fa-user-secret">Hacker Confessions</i></b> <br>
+    Annonymouse blog for programmers
+    </center>
+    </p>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <br> <br> <br> <br>
       <!-- FORM -->
       <div class="container">
         <div class ="row">
@@ -131,7 +114,6 @@
                <input type="submit" class="btn btn-primary" value="Post">
              </div>
            </form>
-        <hr>
        <div id="message-list"></div>
      </div>
     </div>
@@ -143,11 +125,11 @@
  <!-- bootstrap js -->
  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+  <!-- underscore -->
+ <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
   <!-- custom script -->
  <script type="text/javascript" src="../scripts/script.js"></script>
-
- <!-- underscore -->
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
  <!-- underscore template -->
  <script type="text/template" id="message-template">
