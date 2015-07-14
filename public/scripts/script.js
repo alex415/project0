@@ -25,7 +25,7 @@ $(function() {
       }
     }
   );
-// END OF NAVBAR FADE
+  // END OF NAVBAR FADE
 
    // `messagesController` holds all our message funtionality
    var messagesController = {
@@ -70,7 +70,7 @@ $(function() {
          type: 'PUT',
          url: '/api/messages/' + messageId,
          data: {
-           message: updatedMessage,
+           message: updatedMessage
          },
          success: function(data) {
            var updatedMessage = data;
@@ -143,4 +143,5 @@ $(function() {
    };
 
    messagesController.setupView();
+   
  });

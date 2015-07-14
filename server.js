@@ -12,6 +12,15 @@ app.use(express.static(__dirname + '/public'));
 // configure bodyParser (for handling data)
 app.use(bodyParser.urlencoded({extended: true}));
 
+// include mongoose
+var mongoose = require('mongoose');
+
+// include our module from the other file
+var Post = require("./models/post");
+
+// connect to db
+mongoose.connect('mongodb://localhost/microblog');
+
 // pre-seeded messages data
 var messages = [
    {id: 1, message: "The hacker group Anonymous appears to have posted a video threatening Kanye West. The notorious 'hacktivists' uploaded a seven-and-a-half minute tirade, claiming the rapper was an annoying, classlessspoiled little brat, who stands for nothing of value, and is merely a 'new slave 'being used by the entertainment industry."},
@@ -21,85 +30,108 @@ var messages = [
 
 // STATIC ROUTES
 
-// SERVING HTML FILE
+// SERVES HTML FILE
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/views/index.html');
 });
 
 // API ROUTES
 
-// ROUTE FOR SINGLE ID
-app.get('/api/messages/:id', function(req, res) {
-  // if no message id is found, alert the user
-  if(messages.length < req.params.id) {
-    res.statusCode = 404;
-    return res.send('Error 404: No post found');
-  } 
-  // find a specific id
-    var singleMessage = parseInt(req.params.id);
-    var findId = _.findWhere(messages, {id: singleMessage});
-  res.json(findId);
-});
-
-// MESSAGES INDEX
-app.get('/api/messages', function(req, res) {
-  // send all messages as JSON response
-  res.json(messages);
+// GET ALL MESSAGES
+app.get('/api/messages', function (req, res) {
+  // find all phrases in db
+  Message.find(function (err, messages) {
+    res.json(messages);
+  });
 });
 
 // CREATE NEW MESSAGE
 app.post('/api/messages', function (req, res) {
-  // grab params (word and definition) from form data
-
-  var newMessage = req.body;
-  
-  // set sequential id (last id in `messages` array + 1)
-    if (messages.length > 0) {
-      newMessage.id = messages[messages.length - 1].id +  1;
-    } else {
-      newMessage.id = 0;
-    }
-
-    // add newMessage to `messages` array
-    messages.push(newMessage);
-    
-    // send newMessage as JSON response
-    res.json(newMessage);
+  // use params (author and text) from request body
+  // to create a new message
+  var newMessage = new Message({
+    message: req.body.message
   });
 
-// UPDATE MESSAGES
-app.put('/api/messages/:id', function (req, res) {
-
- // set the value of the id
- var targetId = parseInt(req.params.id);
-
- // find item in messages array matching the id
- var foundMessage = _.findWhere(messages, {id: targetId});
-
- // update the messages message
- foundMessage.message = req.body.message;
-
- // send back edited object
- res.json(foundMessage);
+  // save new message in db
+  newMessage.save(function (err, savedMessage) { 
+    if (err) {
+      console.log("error: ",err);
+      res.status(500).send(err);
+    } else {
+      // once saved, send the new message as JSON response
+      res.json(savedMessage);
+    }
+  });
 });
 
-// DELETE MESSAGE
-app.delete('/api/messages/:id', function (req, res) {
-  
-  // set the value of the id
-  var targetId = parseInt(req.params.id);
+// GET A SINGLE MESSAGE
+app.get('/api/messages/:id', function(req, res) {
+
+  // take the value of the id from the url parameter
+  // note that now we are NOT using parseInt
+  var targetId = req.params.id
+
+  // find item in database matching the id
+  Message.findOne({_id: targetId}, function(err, foundMessage){
+    console.log(foundMessage);
+    if(err){
+      console.log("error: ", err);
+      res.status(500).send(err);
+    } else {
+      // send back post object
+      res.json(foundMessage);
+    }
+  });
+
+});
+
+// UPDATE SINGLE MESSAGE
+app.put('/api/messages/:id', function(req, res) {
+
+  // take the value of the id from the url parameter
+  var targetId = req.params.id;
 
   // find item in `messages` array matching the id
-  var foundMessage = _.findWhere(messages, {id: targetId});
+  Messages.findOne({_id: targetId}, function(err, foundMessage){
+    console.log(foundMessage); 
 
-  // get the index of the found item
-  var index = messages.indexOf(foundMessage);
-  
-  // remove the item at that index, only remove 1 item
-  messages.splice(index, 1);
-  
-  // send back deleted object
-  res.json(foundMessage);
+    if(err){
+      res.status(500).send(err);
+
+    } else {
+      // update the messages's message
+      foundMessage.author = req.body.message;
+
+      // save the changes
+      foundMessage.save(function(err, savedMessage){
+        if (err){
+          res.status(500).send(err);
+        } else {
+          // send back edited object
+          res.json(savedMessage);
+        }
+      });
+    }
+
+  });
+
+});
+
+// DELETE POST
+app.delete('/api/messages/:id', function(req, res) {
+
+  // take the value of the id from the url parameter
+  var targetId = req.params.id;
+
+ // remove item from the db that matches the id
+   Message.findOneAndRemove({_id: targetId}, function (err, deletedMessage) {
+    if (err){
+      res.status(500).send(err);
+    } else {
+      // send back deleted post
+      res.json(deletedMessage);
+  });
 });
 
 // set server to localhost:3000
