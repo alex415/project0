@@ -12,7 +12,6 @@ app.use(express.static(__dirname + '/public'));
 // configure bodyParser (for handling data)
 app.use(bodyParser.urlencoded({extended: true}));
 
-//*****************************//
 // pre-seeded messages data
 var messages = [
    {id: 1, message: "The hacker group Anonymous appears to have posted a video threatening Kanye West. The notorious 'hacktivists' uploaded a seven-and-a-half minute tirade, claiming the rapper was an annoying, classlessspoiled little brat, who stands for nothing of value, and is merely a 'new slave 'being used by the entertainment industry."},
@@ -29,19 +28,30 @@ app.get('/', function(req, res) {
 
 // API ROUTES
 
-// MESSAGES INDEX // SENDS ALL MESSAGES AS JSON RESPONSE
+// ROUTE FOR SINGLE ID
+app.get('/api/messages/:id', function(req, res) {
+  // if no message id is found, alert the user
+  if(messages.length < req.params.id) {
+    res.statusCode = 404;
+    return res.send('Error 404: No post found');
+  } 
+  // find a specific id
+    var singleMessage = parseInt(req.params.id);
+    var findId = _.findWhere(messages, {id: singleMessage});
+  res.json(findId);
+});
+
+// MESSAGES INDEX
 app.get('/api/messages', function(req, res) {
+  // send all messages as JSON response
   res.json(messages);
 });
 
 // CREATE NEW MESSAGE
 app.post('/api/messages', function (req, res) {
   // grab params (word and definition) from form data
-  var newMessage = {};
-  newMessage.message = req.body.message;
-  newMessage.id = req.body.id;
-  console.log("this is req.body", req.body);
-  // var newMessage = req.body.message;
+
+  var newMessage = req.body;
   
   // set sequential id (last id in `messages` array + 1)
     if (messages.length > 0) {
@@ -57,7 +67,23 @@ app.post('/api/messages', function (req, res) {
     res.json(newMessage);
   });
 
-// delete message
+// UPDATE MESSAGES
+app.put('/api/messages/:id', function (req, res) {
+
+ // set the value of the id
+ var targetId = parseInt(req.params.id);
+
+ // find item in messages array matching the id
+ var foundMessage = _.findWhere(messages, {id: targetId});
+
+ // update the messages message
+ foundMessage.message = req.body.message;
+
+ // send back edited object
+ res.json(foundMessage);
+});
+
+// DELETE MESSAGE
 app.delete('/api/messages/:id', function (req, res) {
   
   // set the value of the id
@@ -75,12 +101,6 @@ app.delete('/api/messages/:id', function (req, res) {
   // send back deleted object
   res.json(foundMessage);
 });
-
-
-
-
-
-
 
 // set server to localhost:3000
 app.listen(3000, function() {
