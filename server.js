@@ -4,112 +4,127 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    _ = require('underscore');
-
-// serve js and css files from public folder
-app.use(express.static(__dirname + '/public'));
+    _ = require("underscore");
 
 // configure bodyParser (for handling data)
 app.use(bodyParser.urlencoded({extended: true}));
+
+
+// serve js and css files from public folder
+app.use(express.static(__dirname + '/public'));
 
 // include mongoose
 var mongoose = require('mongoose');
 
 // include our module from the other file
-var Post = require("./models/post");
+var db = require("./models/models");
 
 // connect to db
 mongoose.connect('mongodb://localhost/microblog');
 
-// pre-seeded messages data
-var messages = [
-   {id: 1, message: "The hacker group Anonymous appears to have posted a video threatening Kanye West. The notorious 'hacktivists' uploaded a seven-and-a-half minute tirade, claiming the rapper was an annoying, classlessspoiled little brat, who stands for nothing of value, and is merely a 'new slave 'being used by the entertainment industry."},
-   {id: 2, message: "Anonymous has threatened Israel with “the electronic holocaust” which, the group vowed, would “erase it from cyberspace” on April 7 for “crimes” in Palestine. Anonymous planned yet another cyberattack for just over a week before Holocaust Remembrance Day."},
-   {id: 3, message: "FBI chief James Comey says that hackers who targeted Sony's networks over film The Interview were sloppy in their methods -- and the US Director of National Intelligence doesn't think North Korea has much of a sense of humor."}
- ];
-
 // STATIC ROUTES
 
-// SERVES HTML FILE
-app.get('/', function(req, res) {
+// root route (serves index.html)
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/views/index.html');
 });
 
+
 // API ROUTES
 
-// GET ALL MESSAGES
-app.get('/api/messages', function (req, res) {
-  // find all phrases in db
-  Message.find(function (err, messages) {
-    res.json(messages);
-  });
-});
-
-// CREATE NEW MESSAGE
-app.post('/api/messages', function (req, res) {
-  // use params (author and text) from request body
-  // to create a new message
-  var newMessage = new Message({
-    message: req.body.message
-  });
-
-  // save new message in db
-  newMessage.save(function (err, savedMessage) { 
-    if (err) {
-      console.log("error: ",err);
+// get all posts
+app.get('/api/posts', function (req, res) {
+  // find all posts from the database and
+  // populate all of the post's author information
+  db.Post.find({}).populate('author').exec(function(err, allPosts){
+    if (err){
+      console.log("! error: ", err);
       res.status(500).send(err);
     } else {
-      // once saved, send the new message as JSON response
-      res.json(savedMessage);
+      // send all posts as JSON response
+      res.json(allPosts); 
     }
   });
 });
 
-// GET A SINGLE MESSAGE
-app.get('/api/messages/:id', function(req, res) {
+// create new post
+app.post('/api/posts', function (req, res) {
+  // use params (author and text) from request body
+
+  // create the author (we'll assume it doesn't exist yet)
+  var newAuthor = new db.Author({
+    name: req.body.author
+  });
+  newAuthor.save();
+
+  // create a new post
+  var newPost = new db.Post({
+    author: newAuthor._id,
+    text: req.body.text
+  });
+
+  // save new post in db
+  newPost.save(function (err, savedPost) { 
+    if (err) {
+      console.log("error: ",err);
+      res.status(500).send(err);
+    } else {
+      // once saved, send the new post as JSON response
+      res.json(savedPost);
+    }
+  });
+});
+
+// get a single post 
+app.get('/api/posts/:id', function(req, res) {
 
   // take the value of the id from the url parameter
   // note that now we are NOT using parseInt
   var targetId = req.params.id
 
   // find item in database matching the id
-  Message.findOne({_id: targetId}, function(err, foundMessage){
-    console.log(foundMessage);
+  db.Post.findOne({_id: targetId}, function(err, foundPost){
+    console.log(foundPost);
     if(err){
       console.log("error: ", err);
       res.status(500).send(err);
     } else {
       // send back post object
-      res.json(foundMessage);
+      res.json(foundPost);
     }
   });
 
 });
 
-// UPDATE SINGLE MESSAGE
-app.put('/api/messages/:id', function(req, res) {
+
+
+// update single post
+app.put('/api/posts/:id', function(req, res) {
 
   // take the value of the id from the url parameter
   var targetId = req.params.id;
 
-  // find item in `messages` array matching the id
-  Messages.findOne({_id: targetId}, function(err, foundMessage){
-    console.log(foundMessage); 
+  // find item in `posts` array matching the id
+  db.Post.findOne({_id: targetId}, function(err, foundPost){
+    console.log(foundPost); 
 
     if(err){
       res.status(500).send(err);
 
     } else {
-      // update the messages's message
-      foundMessage.author = req.body.message;
+      // update the post's author
+      foundPost.author = req.body.author;
+
+      // update the post's text
+      foundPost.text = req.body.text;
 
       // save the changes
-      foundMessage.save(function(err, savedMessage){
+      foundPost.save(function(err, savedPost){
         if (err){
           res.status(500).send(err);
         } else {
           // send back edited object
-          res.json(savedMessage);
+          res.json(savedPost);
         }
       });
     }
@@ -118,23 +133,109 @@ app.put('/api/messages/:id', function(req, res) {
 
 });
 
-// DELETE POST
-app.delete('/api/messages/:id', function(req, res) {
+// delete post
+app.delete('/api/posts/:id', function(req, res) {
 
   // take the value of the id from the url parameter
   var targetId = req.params.id;
 
  // remove item from the db that matches the id
-   Message.findOneAndRemove({_id: targetId}, function (err, deletedMessage) {
+   db.Post.findOneAndRemove({_id: targetId}, function (err, deletedPost) {
     if (err){
       res.status(500).send(err);
     } else {
       // send back deleted post
-      res.json(deletedMessage);
+      res.json(deletedPost);
+    }
   });
 });
 
+
+// get all comments for one post
+app.get('/api/posts/:postid/comments', function(req, res){
+  // query the database to find the post indicated by the id
+  db.Post.findOne({_id: req.params.postid}, function(err, post){
+    // send the post's comments as the JSON response
+    res.json(post.comments);
+  });
+});
+
+// add a new comment to a post
+app.post('/api/posts/:postid/comments', function(req, res){
+
+  // query the database to find the post indicated by the id
+  db.Post.findOne({_id: req.params.postid}, function(err, post){
+    // create a new comment record
+    var newComment = new db.Comment({text: req.body.text});
+
+    // add the new comment to the post's list of embedded comments
+    post.comments.push(newComment);
+
+    // send the new comment as the JSON response
+    res.json(newComment);
+  });
+});
+
+// get all authors
+app.get('/api/authors', function(req, res){
+  // query the database to find all authors
+  db.Author.find({}, function(err, authors){
+    // send the authors as the JSON response
+    res.json(authors);
+  });
+}); 
+
+// create a new author
+app.post('/api/authors', function(req, res){
+  // make a new author, using the name from the request body
+  var newAuthor = new db.Author({name: req.body.name});
+
+  // save the new author
+  newAuthor.save(function(err, author){
+    // send the new author as the JSON response
+    res.json(author);
+  });
+});
+
+
+// assign a specific author to a specific post
+
+app.put('/api/posts/:postid/authors/:authorid', function(req, res){
+  // query the database to find the author 
+  // (to make sure the id actually matches an author)
+  db.Author.find({_id: req.params.authorid}, function(err, author){
+    if (err){
+      console.log("error: ", err);
+      res.status(500).send("no author with id "+req.params.authorid);
+    } else {
+      // query the database to find the post
+      db.Post.find({_id: req.params.postid}, function(err, post){
+
+        if (err){  
+          res.status(500).send("no post with id"+req.params.postid);
+        } else {  // we found a post!
+          // update the post to reference the author
+          post.author = author._id;
+
+          // save the updated post
+          post.save(function(err, savedPost){
+            // send the updated post as the JSON response
+            res.json(savedPost);
+          });
+        }
+      });
+    }
+  });
+});
+
+
+
+
+
+
+
 // set server to localhost:3000
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log('server started on localhost:3000');
 });
+

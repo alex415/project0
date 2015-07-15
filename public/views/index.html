@@ -1,146 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
- <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- bootstrap css -->
+  <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
- <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- custom styles -->
+  <link type="text/css" rel="stylesheet" href="../styles/style.css">
 
- <!-- bootstrap cdn -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
- <!-- custom styles -->
- <link rel="stylesheet" type="text/css" href="../styles/style.css">
+  <!-- Google Font -->
+  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
- <!-- Bootstrap Font Awesome CDN -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-
- <!-- Google Font -->
- <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-
- <title>Hacker Confessions</title>
+  <title>Hacker Confessions</title>
 </head>
+
+<body>
+
 <body background="BG.jpg" id="backgroundimage">
 
-    <!-- NAVBAR --> <!--ADDED FIXED TOP -->
-    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- NAVBAR --> <!--ADDED FIXED TOP -->
+  <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="#"></a>
       </div>
-
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class=""><a href="#"><i class="fa fa-user-secret">Hacker Confessions</i></a></li>
-          <li><a href="#">About Us</a></li>
-          
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        <li class=""><a href="#"><i class="fa fa-user-secret">Hacker Confessions</i></a></li>
+        <li><a href="#">About Us</a></li>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
   </nav>
-      <!-- END OF NAVBAR -->
+  <!-- END OF NAVBAR -->
 
-
-
-      <!-- CAROUSEL -->
-      <div class="row">
-          <!-- The carousel -->
-          <div id="transition-timer-carousel" class="carousel slide transition-timer-carousel" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          <li data-target="#transition-timer-carousel" data-slide-to="0" class="active"></li>
-          <li data-target="#transition-timer-carousel" data-slide-to="1"></li>
-          <li data-target="#transition-timer-carousel" data-slide-to="2"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-          <div class="item active">
-                      <img src="hack-1.jpg"/>
-                      <div class="carousel-caption">
-                      </div>
-                  </div>
-                  
-                  <div class="item">
-                      <img src="hack-2.jpg"/>
-                      <div class="carousel-caption">
-                      </div>
-                  </div>
-                  
-                  <div class="item">
-                      <img src="hack-3.jpg"/>
-                      <div class="carousel-caption">
-                      </div>
-                  </div>
-              </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#transition-timer-carousel" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#transition-timer-carousel" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-              
-              <!-- Timer "progress bar" -->
-              <hr class="transition-timer-carousel-progress-bar animate" />
+  <!-- CAROUSEL -->
+  <div class="row">
+    <!-- The carousel -->
+    <div id="transition-timer-carousel" class="carousel slide transition-timer-carousel"data-ride="carousel">
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li data-target="#transition-timer-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#transition-timer-carousel" data-slide-to="1"></li>
+        <li data-target="#transition-timer-carousel" data-slide-to="2"></li>
+      </ol>
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="hack-1.jpg"/>
+          <div class="carousel-caption">
+          </div>
+        </div>
+        <div class="item">
+          <img src="hack-2.jpg"/>
+          <div class="carousel-caption">
+          </div>
+        </div>
+        <div class="item">
+          <img src="hack-3.jpg"/>
+          <div class="carousel-caption">
+          </div>
+        </div>
       </div>
-      </div>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#transition-timer-carousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+      <a class="right carousel-control" href="#transition-timer-carousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+      <!-- Timer "progress bar" -->
+    <!-- <hr class="transition-timer-carousel-progress-bar animate" /> -->
+    </div>
   </div>
-    <!-- END OF CAROUSEL -->
+  </div>
+  <!-- END OF CAROUSEL -->
 
-    <p id="intro">
-    <center>
-    <b><i class="fa fa-user-secret">Hacker Confessions</i></b> <br>
-    Anonymous blog for programmers
-    </center>
-    </p>
-
-      <!-- FORM -->
-      <div class="container">
-        <div class ="row">
-          <div class="col-sm-12">
-           <form class="text-center" id="new-message">
-             <div class="form-group">
-               <textarea class="form-control" rows="3" id="message-title" placeholder="Message" autofocus></textarea>
-             </div>
-             <div class="form-group">
-               <input type="submit" class="btn btn-primary" value="Post">
-             </div>
-           </form>
-       <div id="message-list"></div>
-     </div>
+  <!-- header -->
+  <div class="container">
+    <div class="page-header">
+      <center> <h1>Hacker Confessions <small>Anonymous blog for programmers</small></h1> </center>
     </div>
   </div>
 
- <!-- jquery -->
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 
- <!-- bootstrap js -->
- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- page content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        
+        <!-- new post form-->
+        <form class="form-inline" id="new-post">
+          <div class="newformline1">
+            <input type="text" class="form-control" id="new-text" placeholder="Say what?" autofocus>
+          </div>
+          <div>    
+            <input type="text" class="form-control" id="new-author" placeholder="Says who?">
+            <input type="submit" class="btn btn-success" value="Add Post">
+          </div>
+        </form>
+        <br>
 
- <!-- underscore -->
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+        <!-- list of posts  -->
+        <div id="post-list"></div>
+      </div>
+    </div>
+  </div>
 
- <!-- custom script -->
- <script type="text/javascript" src="../scripts/script.js"></script>
+  <!-- jquery -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
 
- <!-- underscore template -->
- <script type="text/template" id="message-template">
-   <div class="feeds">
-     <p>
-       <span class="message-details"><%= message %></span>
-       &nbsp;
-     </p>
-     <hr>
-   </div>
- </script>
+  <!-- bootstrap js -->
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+  <!-- underscore -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+  <!-- custom script -->
+  <script type="text/javascript" src="../scripts/script.js"></script>
+
+  <!-- underscore template for single post -->
+  <script type="text/template" id="post-template">
+    <div class="post panel panel-default" id="post-<%= _id %>" data-id="<%= _id %>">
+      <div class="panel-body">
+
+        <span class="my-button-group">
+          <!-- delete button -->
+          <button class="close right-side delete-post" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+          <!-- edit link (pencil icon) to toggle form -->
+          <a class="edit-pencil" role="button" data-toggle="collapse" data-target="#update-<%= _id %>">
+            <span class="glyphicon glyphicon-pencil edit"></span>
+          </a>
+        </span>
+
+        <!-- post content -->
+        <p><%= text %></p>
+        <p> - <%= author["name"] %></p>
+
+
+        <!-- form to update post -->
+        <div class="collapse" id="update-<%= _id %>">
+          <br>
+          <form class="form-inline update-post">          
+            <input type="text" class="form-control updated-text" value="<%= text %>" placeholder="Say what now?">
+            <input type="text" class="form-control updated-author" value="<%= author['name'] %>" placeholder="Says who?">
+            <input type="submit" class="btn btn-default" value="Update post">
+          </form>
+        </div>
+        <div class="comment-list" id="comments-<%= _id %>">
+        </div>
+      </div>
+    </div>
+  </script>
+
+
+  
 </body>
 </html>
