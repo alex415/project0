@@ -4,11 +4,11 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
+    ejs = require('ejs'),
     _ = require("underscore");
 
 // configure bodyParser (for handling data)
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 // serve js and css files from public folder
 app.use(express.static(__dirname + '/public'));
@@ -28,7 +28,6 @@ mongoose.connect('mongodb://localhost/microblog');
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/views/index.html');
 });
-
 
 // API ROUTES
 
@@ -80,7 +79,7 @@ app.get('/api/posts/:id', function(req, res) {
 
   // take the value of the id from the url parameter
   // note that now we are NOT using parseInt
-  var targetId = req.params.id
+  var targetId = req.params.id;
 
   // find item in database matching the id
   db.Post.findOne({_id: targetId}, function(err, foundPost){
@@ -95,8 +94,6 @@ app.get('/api/posts/:id', function(req, res) {
   });
 
 });
-
-
 
 // update single post
 app.put('/api/posts/:id', function(req, res) {
@@ -150,7 +147,6 @@ app.delete('/api/posts/:id', function(req, res) {
   });
 });
 
-
 // get all comments for one post
 app.get('/api/posts/:postid/comments', function(req, res){
   // query the database to find the post indicated by the id
@@ -197,7 +193,6 @@ app.post('/api/authors', function(req, res){
   });
 });
 
-
 // assign a specific author to a specific post
 
 app.put('/api/posts/:postid/authors/:authorid', function(req, res){
@@ -228,14 +223,7 @@ app.put('/api/posts/:postid/authors/:authorid', function(req, res){
   });
 });
 
-
-
-
-
-
-
 // set server to localhost:3000
 app.listen(3000, function () {
   console.log('server started on localhost:3000');
 });
-
